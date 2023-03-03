@@ -7,9 +7,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/node@main
+        continue-on-error: true
         env:
-          SNYK_TOKEN: ${{ secrets.SNYKTOCKEN }} 
+            SNYK_TOKEN: ${{ secrets.SNYKTOCKEN }} 
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+      
       - uses: actions/setup-node@v3
         with:
           node-version: '18.x'
