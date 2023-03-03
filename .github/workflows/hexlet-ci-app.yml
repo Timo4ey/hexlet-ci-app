@@ -9,5 +9,6 @@ jobs:
       - uses: actions/setup-node@v3
       - run: npm install
       - run: make lint
-      - tests: make tests
+      - run: make tests
+        
         
